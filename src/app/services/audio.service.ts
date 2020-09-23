@@ -40,7 +40,6 @@ export class AudioService {
 	}
 
 	play() {
-		console.log('play ', this.audioObj.src);
 		this.audioObj.play();
 	}
 
