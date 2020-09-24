@@ -11,6 +11,9 @@ import { StreamState } from '../interfaces/stream-state'
 export class AudioService {
 	private stop$ = new Subject();
 	private audioObj = new Audio();
+
+	isMute: boolean = false
+
 	audioEvents = [
 		"ended",
 		"error",
@@ -51,6 +54,11 @@ export class AudioService {
 		this.stop$.next();
 	}
 
+	mute(action) {
+		this.audioObj.muted = action
+		this.isMute = action
+	}
+
 	seekTo(seconds) {
 		this.audioObj.currentTime = seconds;
 	}
@@ -74,7 +82,7 @@ export class AudioService {
 		this.state
 	);
 
-	private updateStateEvents(event: Event): void {
+	private updateStateEvents(event: Event): void {		
 		switch (event.type) {
 			case "canplay":
 				this.state.duration = this.audioObj.duration;
