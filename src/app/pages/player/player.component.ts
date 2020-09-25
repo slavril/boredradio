@@ -16,6 +16,8 @@ export class PlayerComponent {
 	files: Array<any> = [];
 	state: StreamState;
 	currentFile: any = {};
+	displayFiles: Array<any> = []
+	isplaying: boolean = false
 
 	constructor(
 		public audioService: AudioService,
@@ -23,7 +25,7 @@ export class PlayerComponent {
 	) {
 		// ... constructor code
 		cloudService.getFiles().subscribe(files => {
-			this.files = files
+			this.displayFiles = files
 		});
 
 		this.audioService.getState().subscribe(state => {
@@ -46,7 +48,8 @@ export class PlayerComponent {
 		return this.currentFile.index === this.files.length - 1;
 	}
 
-	playStream(url, onEvent = function(event){}) {
+	playStream(url, onEvent = function (event) { }) {
+		this.isplaying = true
 		this.audioService.playStream(url).subscribe(events => {
 			// listening for fun here
 			onEvent(events);
@@ -58,11 +61,14 @@ export class PlayerComponent {
 		this.audioService.stop();
 		this.playStream(file.url, (event) => {
 			if (event.type == 'ended') {
+				this.isplaying = false
 				setTimeout(() => {
 					this.playRandomSong();
 				}, 500)
 			}
 		});
+
+		this.files.splice(index, 1)		
 	}
 
 	stop() {
@@ -70,13 +76,19 @@ export class PlayerComponent {
 	}
 
 	pause() {
-		//this.audioService.mute()
-		//this.audioService.pause();
+		if (this.isplaying == true) {
+			if (this.audioService.isMute == true) {
+				this.audioService.mute(false)
+			}
+			else {
+				this.audioService.mute(true)
+			}
+			return;
+		}
 	}
 
 	mute() {
 		if (this.audioService.isMute == true) {
-
 			this.audioService.mute(false)
 		}
 		else {
@@ -85,6 +97,7 @@ export class PlayerComponent {
 	}
 
 	play() {
+		this.files = Object.assign([], this.displayFiles)
 		this.playRandomSong()
 	}
 
@@ -102,17 +115,14 @@ export class PlayerComponent {
 
 	private get uniqueRandomIndex() {
 		let randomIndex = Math.floor(Math.random() * this.files.length)
-		if (randomIndex == this.currentFile.index) {
-			return this.uniqueRandomIndex;
-		}
-
 		return randomIndex;
 	}
 
 	private playRandomSong() {
-		let index = this.uniqueRandomIndex
-		let randomElement = this.files[index];
-		this.openFile(randomElement, index);
-		return randomElement;
+		if (this.files.length > 0) {
+			let index = this.uniqueRandomIndex
+			let randomElement = this.files[index];
+			this.openFile(randomElement, index);
+		}
 	}
 }

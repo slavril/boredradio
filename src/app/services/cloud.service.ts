@@ -20,15 +20,13 @@ export class CloudService {
     "I Want To Hold Your Hand.mp3",
     "You Are My Sunshine__Johnny Cash__320.mp3",
     "Don_t Let Me Go - The Click Five [Lossless_FLAC].flac",
-    "I Love You - Avril Lavigne [Lossless_FLAC].flac"
+    "I Love You - Avril Lavigne [Lossless_FLAC].flac",
+    "tat nhat lang ruc ro.mp3",
+    "Vi yeu cu dam dau remix.mp3",
+    "anh oi o lai.mp3",
+    "nguoi nao hay.mp3",
+    "Ngay Chua Giong Bao - Bui Lan Huong.mp3"
   ];
-
-  urls: any = [
-    {
-      url: "https://raw.githubusercontent.com/slavril/boredradio/master/src/assets/songs/how you like that.mp3",
-      name: 'Perfect'
-    }
-  ]
 
   getUrl() {
     let newArr = this.files.map((e) => {

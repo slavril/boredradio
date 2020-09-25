@@ -5,12 +5,13 @@
           <div class="logo">
             <div>My radio</div>
           </div>
-          <mat-list color="primary">
-            <h3 mat-subheader>Songs</h3>
-            <mat-list-item *ngFor="let file of files; let i = index">
-              <mat-icon mat-list-icon>music_note</mat-icon>
-              <h4 mat-line>{{ file.name }}</h4>
-              <mat-icon *ngIf="currentFile.index === i && !state?.error">volume_up</mat-icon>
+          <mat-list>
+            <h3 [ngStyle]="{'color':'#dcdcdc'}" mat-subheader>Songs</h3>
+            <mat-list-item [ngStyle]="{'background-color':'#1e1e1e'}" *ngFor="let file of displayFiles; let i = index">
+              <mat-icon [ngStyle]="{'color':'#ffc730'}" mat-list-icon>music_note</mat-icon>
+              <h4 [ngStyle]="{'color':'#dcdcdc'}" mat-line>{{ file.name }}</h4>
+              <mat-icon [ngStyle]="{'color':'#ffc730'}" *ngIf="currentFile.index === i && !state?.error">volume_up
+              </mat-icon>
               <h6 *ngIf="currentFile.index === i && state?.error">ERROR</h6>
               <mat-divider></mat-divider>
             </mat-list-item>
@@ -21,9 +22,6 @@
             <mat-icon mat-list-icon>play_arrow</mat-icon>
           </button>
           <button class="action-bar-button center" (click)="pause()" *ngIf="state?.playing">
-            <mat-icon mat-list-icon>pause</mat-icon>
-          </button>
-          <button class="action-bar-button center smaller" style="margin-left: 16px;" (click)="mute()">
             <mat-icon mat-list-icon>volume_off</mat-icon>
           </button>
         </div>

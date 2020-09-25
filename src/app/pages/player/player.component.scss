@@ -7,17 +7,21 @@
 .container {
   padding: 10%;
   justify-content: center;
-  background-color: black;
+  background-color: #ffc730;
   align-items: center;
   flex: 1;
+  height: 100%;
 }
 
 .background {
-  background-color: white;
+  background-color: #1e1e1e;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .content {
-  background-color: white;
+  background-color: #1e1e1e;
   padding-top: 2.5em;
   overflow: auto;
   height: 400px;
@@ -25,14 +29,19 @@
   .logo {
     text-align: center;
     font-size: 24px;
-    color: #000000;
+    color: white;
 
     .mat-icon {
       height: 160px !important;
       width: 160px !important;
       font-size: 160px !important;
+      color: white;
     }
   }
+}
+
+.iicon {
+    color: white;
 }
 
 .media-footer {
@@ -55,7 +64,7 @@
 }
 
 .action-bar {
-  background-color: wheat;
+  background-color: #323232;
   margin-top: 16px;
   text-align: center;
 
@@ -74,6 +83,7 @@
   border-radius: 32px;
   margin-top: 16px;
   margin-bottom: 16px;
+  outline: none;
 }
 
 .smaller {
