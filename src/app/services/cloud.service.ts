@@ -1,24 +1,33 @@
 import { Injectable } from "@angular/core";
 import { of } from "rxjs";
-import Data from '../../assets/songs.json'
+import { Observable } from 'rxjs';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { FilesService } from './files.service'
 
 const root = "../../assets/songs/"
 const deploy = true
-const rootURL = 'https://raw.githubusercontent.com/slavril/boredradio/master/src/assets/songs/'
 
 @Injectable({
   providedIn: "root"
 })
   
 export class CloudService {
-  files: any = Data.data
+  files: any = []
+  dataBase: AngularFireDatabase
+
+  constructor(db: AngularFireDatabase, public storage: FilesService) {
+    this.dataBase = db
+    db.database.ref('data').once('value').then((snapshot) => {
+      this.files = snapshot.val()
+    })
+  }
 
   getUrl() {
     let newArr = this.files.map((e) => {
       let name = e.slice(0, -4)
       return {
-        url: rootURL + e,
-        name: name,
+        url: name,
+        name: e,
         artist: 'unknown'
       }
     })
@@ -42,5 +51,13 @@ export class CloudService {
   getFiles() {
     if (deploy == true) return this.getUrl()
     return this.getLocalFile()
+  }
+
+  getSongs(callback: (result: Observable<any>) => {}) {
+    if (this.files.length > 0) return this.files;
+    this.dataBase.database.ref('data').once('value').then((snapshot) => {
+      this.files = snapshot.val()
+      callback(this.getUrl())
+    })
   }
 }

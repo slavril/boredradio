@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { AudioService } from '../../services/audio.service'
 import { StreamState } from "../../interfaces/stream-state";
 import { CloudService } from '../../services/cloud.service'
+import { FilesService } from '../../services/files.service'
 
 @Component({
 	selector: 'app-home-page',
@@ -21,12 +22,15 @@ export class PlayerComponent {
 
 	constructor(
 		public audioService: AudioService,
-		public cloudService: CloudService
+		public cloudService: CloudService,
+		public storageService: FilesService
 	) {
 		// ... constructor code
-		cloudService.getFiles().subscribe(files => {
-			this.displayFiles = files
-		});
+		cloudService.getSongs((songs) => {
+			return songs.subscribe(files => {
+				this.displayFiles = files;
+			});
+		})
 
 		this.audioService.getState().subscribe(state => {
 			this.state = state;
@@ -59,14 +63,19 @@ export class PlayerComponent {
 	openFile(file, index) {
 		this.currentFile = { index, file };
 		this.audioService.stop();
-		this.playStream(file.url, (event) => {
-			if (event.type == 'ended') {
-				this.isplaying = false
-				setTimeout(() => {
-					this.playRandomSong();
-				}, 500)
-			}
-		});
+
+		this.storageService.getFileUrl(file.name, url => {
+			console.log('play ', url);
+			
+			this.playStream(url, (event) => {
+				if (event.type == 'ended') {
+					this.isplaying = false
+					setTimeout(() => {
+						this.playRandomSong();
+					}, 500)
+				}
+			});
+		})
 
 		this.files.splice(index, 1)		
 	}
