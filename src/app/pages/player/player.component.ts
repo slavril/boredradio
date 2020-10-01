@@ -64,9 +64,7 @@ export class PlayerComponent {
 		this.currentFile = { index, file };
 		this.audioService.stop();
 
-		this.storageService.getFileUrl(file.name, url => {
-			console.log('play ', url);
-			
+		this.storageService.getFileUrl(file.name, url => {		
 			this.playStream(url, (event) => {
 				if (event.type == 'ended') {
 					this.isplaying = false
