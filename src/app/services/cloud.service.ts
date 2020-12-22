@@ -18,7 +18,10 @@ export class CloudService {
   constructor(db: AngularFireDatabase, public storage: FilesService) {
     this.dataBase = db
     db.database.ref('data').once('value').then((snapshot) => {
-      this.files = snapshot.val()
+      const object = snapshot.toJSON()
+      this.files = Object.keys(object).map(key => {
+        return object[key]
+      })
     })
   }
 
@@ -56,7 +59,10 @@ export class CloudService {
   getSongs(callback: (result: Observable<any>) => {}) {
     if (this.files.length > 0) return this.files;
     this.dataBase.database.ref('data').once('value').then((snapshot) => {
-      this.files = snapshot.val()
+      const object = snapshot.toJSON()
+      this.files = Object.keys(object).map(key => {
+        return object[key]
+      })
       callback(this.getUrl())
     })
   }
