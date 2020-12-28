@@ -6,6 +6,23 @@ import { StreamState } from "../../interfaces/stream-state";
 import { CloudService } from '../../services/cloud.service'
 import { FilesService } from '../../services/files.service'
 
+class PlayerState {
+	_playing: boolean = false;
+	_mute: boolean = false;
+
+	get paused(): boolean {
+		return this._playing && this._mute
+	}
+
+	get playing(): boolean {
+		return this._playing && !this._mute
+	}
+
+	get inActive(): boolean {
+		return !this._playing
+	}
+}
+
 @Component({
 	selector: 'app-home-page',
 	templateUrl: './player.component.html',
@@ -19,6 +36,9 @@ export class PlayerComponent {
 	currentFile: any = {};
 	displayFiles: Array<any> = []
 	isplaying: boolean = false
+
+	adState: PlayerState = new PlayerState();
+	line2 = ''
 
 	constructor(
 		public audioService: AudioService,
@@ -34,6 +54,9 @@ export class PlayerComponent {
 
 		this.audioService.getState().subscribe(state => {
 			this.state = state;
+			if (state.playing) {
+				this.adState._playing = true
+			}
 		});
 	}
 
@@ -41,18 +64,18 @@ export class PlayerComponent {
 
 	}
 
-	onSliderChangeEnd(change) {
+	onSliderChangeEnd = (change) => {
 		this.audioService.seekTo(change.value);
 	}
-	isFirstPlaying() {
+	isFirstPlaying = () =>  {
 		return this.currentFile.index === 0;
 	}
 
-	isLastPlaying() {
+	isLastPlaying = () =>  {
 		return this.currentFile.index === this.files.length - 1;
 	}
 
-	playStream(url, onEvent = function (event) { }) {
+	playStream = (url, onEvent = function (event) { }) => {
 		this.isplaying = true
 		this.audioService.playStream(url).subscribe(events => {
 			// listening for fun here
@@ -60,11 +83,12 @@ export class PlayerComponent {
 		});
 	}
 
-	openFile(file, index) {
+	openFile = (file, index) => {
 		this.currentFile = { index, file };
 		this.audioService.stop();
 
-		this.storageService.getFileUrl(file.name, url => {		
+		this.storageService.getFileUrl(file.name, url => {	
+			this.line2 = file.name
 			this.playStream(url, (event) => {
 				if (event.type == 'ended') {
 					this.isplaying = false
@@ -78,43 +102,43 @@ export class PlayerComponent {
 		this.files.splice(index, 1)		
 	}
 
-	stop() {
+	stop = () =>  {
 		this.audioService.stop();
 	}
 
-	pause() {
-		if (this.isplaying == true) {
-			if (this.audioService.isMute == true) {
-				this.audioService.mute(false)
-			}
-			else {
-				this.audioService.mute(true)
-			}
-			return;
-		}
+	pause = () =>  {
+		this.audioService.mute(true)
+		this.adState._mute = true
 	}
 
-	mute() {
-		if (this.audioService.isMute == true) {
+	mute = () => {
+		this.audioService.mute(true)
+		this.adState._mute = true
+	}
+
+	play = () => {
+		if (this.adState.inActive) {
+			this.line2 = 'Bored Radio V2.0, loading...'
+			setTimeout(() => {
+				this.line2 = 'Loaded!'
+				this.files = Object.assign([], this.displayFiles)
+				this.playRandomSong()
+			}, 2000);
+			
+		}
+		else if (this.adState.paused) {
 			this.audioService.mute(false)
-		}
-		else {
-			this.audioService.mute(true)
+			this.adState._mute = false
 		}
 	}
 
-	play() {
-		this.files = Object.assign([], this.displayFiles)
-		this.playRandomSong()
-	}
-
-	previous() {
+	previous = () =>  {
 		const index = this.currentFile.index - 1;
 		const file = this.files[index];
 		this.openFile(file, index);
 	}
 
-	next() {
+	next = () =>  {
 		const index = this.currentFile.index + 1
 		const file = this.files[index];
 		this.openFile(file, index);
@@ -131,5 +155,16 @@ export class PlayerComponent {
 			let randomElement = this.files[index];
 			this.openFile(randomElement, index);
 		}
+	}
+
+	get displayState() {
+		if (this.adState.inActive) return ''
+		if (this.adState.playing == true) return 'playing...'
+		if (this.adState.paused == true) return 'paused'
+		return 'ERR'
+	}
+
+	get line1() {
+		return this.displayState
 	}
 }

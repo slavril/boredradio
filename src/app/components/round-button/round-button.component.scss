@@ -1,0 +1,27 @@
+.button {
+  background-color: gray;
+  width: 44pt;
+  height: 44pt;
+  border-width: 0px;
+  border-radius: 22pt;
+  margin-left: 4pt;
+}
+
+.title {
+  color: #fff;
+  font-family: sans-serif;
+  font-weight: normal;
+}
+
+.title-view {
+  text-align: center;
+}
+
+.icon {
+  width: 16pt;
+  height: 16pt;
+}
+
+*:focus {
+  outline: none;
+}
