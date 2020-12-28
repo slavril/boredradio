@@ -108,7 +108,7 @@
   margin-bottom: 8pt;
   padding: 8pt;
   border-radius: 3pt;
-  max-width: 1000pt;
+  max-width: 480pt;
   margin: auto;
 }
 
@@ -138,11 +138,12 @@
   padding-left: 8pt;
   padding-top: 4pt;
   padding-bottom: 6pt;
-  margin-top: 8pt;
+  margin-bottom: 8pt;
   -moz-box-shadow: inset 0 0 10px #000000;
   -webkit-box-shadow: inset 0 0 10px #000000;
   box-shadow: inset 0 0 10px #000000;
-  height: 80pt;
+  height: 100pt;
+  overflow: hidden;
 }
 
 .bored-text {
@@ -152,4 +153,11 @@
   color: #000000;
   font-family: fvf;
   margin: auto;
+}
+
+.buttons {
+  float: right;
+}
+
+@media screen and (max-width: 768px) {
 }
