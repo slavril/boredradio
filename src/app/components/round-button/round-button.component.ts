@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { getIcon } from '../../common/Icon'
 
 export const b_type = {
   primary: 0,
@@ -12,8 +13,9 @@ export const b_type = {
 })
 
 export class RoundButtonComponent implements OnInit {
-
-  constructor() { }
+  _icon = null
+  constructor() { 
+  }
 
   ngOnInit(): void {
   }
@@ -26,7 +28,9 @@ export class RoundButtonComponent implements OnInit {
   @Input() action: VoidFunction;
 
   @Input() buttonType = b_type.primary
-  @Input() icon = null
+  @Input() set icon(value) {
+    this._icon = getIcon(value)
+  }
 
   get buttonStyle() {
     if (this.buttonType == b_type.primary) return 'button'

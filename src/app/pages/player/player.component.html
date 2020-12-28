@@ -30,9 +30,9 @@
 
 <div class="container">
   <div class="top-actions">
-    <app-real-button [action]="play" *ngIf="adState.inActive || adState.paused" icon="../../assets/icons/off.png">
+    <app-real-button [action]="play" *ngIf="adState.inActive || adState.paused" icon="icon_off">
     </app-real-button>
-    <app-real-button [action]="pause" *ngIf="adState.playing" icon="../../assets/icons/on.png">
+    <app-real-button [action]="pause" *ngIf="adState.playing" icon="icon_on">
     </app-real-button>
     <div class="lcd">
       <p class="state-text">{{line1}}</p>

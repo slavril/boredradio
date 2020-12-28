@@ -2,5 +2,5 @@
     <div *ngIf="icon == null && title != null" class="title-view">
         <p [ngClass]="titleStyle">{{title}}</p>
     </div>
-    <img *ngIf="icon != null" src={{icon}} class="icon">
+    <img *ngIf="_icon != null" src={{_icon}} class="icon">
 </button>
