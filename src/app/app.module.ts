@@ -13,6 +13,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { SongItemComponent } from './pages/player/song-item/song-item.component';
 import { RoundButtonComponent } from './components/round-button/round-button.component';
 import { RealButton } from './components/round-button/real-button.componen';
+import { AnimatedTextComponent } from './components/animated-text/animated-text.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { RealButton } from './components/round-button/real-button.componen';
     PlayerComponent,
     SongItemComponent,
     RoundButtonComponent,
-    RealButton
+    RealButton,
+    AnimatedTextComponent
   ],
   imports: [
     BrowserModule,

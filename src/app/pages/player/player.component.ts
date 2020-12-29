@@ -5,6 +5,7 @@ import { AudioService } from '../../services/audio.service'
 import { StreamState } from "../../interfaces/stream-state";
 import { CloudService } from '../../services/cloud.service'
 import { FilesService } from '../../services/files.service'
+import RunRun from '../../components/runrun-text'
 
 class PlayerState {
 	_playing: boolean = false;
@@ -40,6 +41,8 @@ export class PlayerComponent {
 	adState: PlayerState = new PlayerState();
 	line2 = ''
 
+	runrun = new RunRun()
+
 	constructor(
 		public audioService: AudioService,
 		public cloudService: CloudService,
@@ -67,11 +70,11 @@ export class PlayerComponent {
 	onSliderChangeEnd = (change) => {
 		this.audioService.seekTo(change.value);
 	}
-	isFirstPlaying = () =>  {
+	isFirstPlaying = () => {
 		return this.currentFile.index === 0;
 	}
 
-	isLastPlaying = () =>  {
+	isLastPlaying = () => {
 		return this.currentFile.index === this.files.length - 1;
 	}
 
@@ -87,26 +90,26 @@ export class PlayerComponent {
 		this.currentFile = { index, file };
 		this.audioService.stop();
 
-		this.storageService.getFileUrl(file.name, url => {	
+		this.storageService.getFileUrl(file.name, url => {
 			this.line2 = file.name
 			this.playStream(url, (event) => {
 				if (event.type == 'ended') {
 					this.isplaying = false
 					setTimeout(() => {
 						this.playRandomSong();
-					}, 500)
+					}, 1000)
 				}
 			});
 		})
 
-		this.files.splice(index, 1)		
+		this.files.splice(index, 1)
 	}
 
-	stop = () =>  {
+	stop = () => {
 		this.audioService.stop();
 	}
 
-	pause = () =>  {
+	pause = () => {
 		this.audioService.mute(true)
 		this.adState._mute = true
 	}
@@ -118,13 +121,16 @@ export class PlayerComponent {
 
 	play = () => {
 		if (this.adState.inActive) {
-			this.line2 = 'Bored Radio V2.0, loading...'
+			this.runrun.start('...', text => {
+				this.line2 = 'Bored Radio V2.0, loading' + text
+			})
+
 			setTimeout(() => {
 				this.line2 = 'Loaded!'
+				this.runrun.stop()
 				this.files = Object.assign([], this.displayFiles)
 				this.playRandomSong()
-			}, 2000);
-			
+			}, 3000);
 		}
 		else if (this.adState.paused) {
 			this.audioService.mute(false)
@@ -132,13 +138,13 @@ export class PlayerComponent {
 		}
 	}
 
-	previous = () =>  {
+	previous = () => {
 		const index = this.currentFile.index - 1;
 		const file = this.files[index];
 		this.openFile(file, index);
 	}
 
-	next = () =>  {
+	next = () => {
 		const index = this.currentFile.index + 1
 		const file = this.files[index];
 		this.openFile(file, index);
@@ -159,12 +165,20 @@ export class PlayerComponent {
 
 	get displayState() {
 		if (this.adState.inActive) return ''
-		if (this.adState.playing == true) return 'playing...'
+		if (this.adState.playing == true) {
+			return 'playing...'
+		}
 		if (this.adState.paused == true) return 'paused'
 		return 'ERR'
 	}
 
 	get line1() {
 		return this.displayState
+	}
+
+	get lightClass() {
+		if (this.adState.inActive) return 'light'
+		if (this.adState.playing) return 'light green-light'
+		return 'light red-light'
 	}
 }

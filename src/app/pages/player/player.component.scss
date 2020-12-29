@@ -110,6 +110,7 @@
   border-radius: 3pt;
   max-width: 480pt;
   margin: auto;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .state-text {
@@ -157,7 +158,31 @@
 
 .buttons {
   float: right;
+  align-items: center;
+}
+
+.light {
+  background-color: lightgray;
+  width: 8pt;
+  height: 8pt;
+  border-radius: 4pt;
+  margin-right: 8pt;
+}
+
+.display-h {
+  height: 50pt;
+  display: inline-block;
 }
 
 @media screen and (max-width: 768px) {
+}
+
+.green-light {
+  box-shadow: 0 4px 8px 0 rgba(70, 247, 0, 0.8), 0 6px 20px 0 rgba(70, 247, 0, 0.8);
+  background-color: rgb(70, 247, 0);
+}
+
+.red-light {
+  box-shadow: 0 4px 8px 0 rgba(255, 1, 1, 0.8), 0 6px 20px 0 rgba(255, 1, 1, 0.8);
+  background-color: rgb(255, 1, 1);
 }

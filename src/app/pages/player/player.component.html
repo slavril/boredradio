@@ -35,6 +35,9 @@
       <p class="song-name">{{line2}}</p>
     </div>
     <div class="buttons">
+      <div class="display-h">
+        <div [ngClass]="lightClass"></div>
+      </div>
       <app-real-button [action]="play" *ngIf="adState.inActive || adState.paused" icon="icon_off">
       </app-real-button>
       <app-real-button [action]="pause" *ngIf="adState.playing" icon="icon_on">
