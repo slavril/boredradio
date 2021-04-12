@@ -1,33 +1,3 @@
-<!-- src/app/pages/player/player.component.html -->
-<!-- <div class="container">
-    <div class="background">
-        <div class="content">
-          <div class="logo">
-            <div>My radio</div>
-          </div>
-          <mat-list>
-            <h3 [ngStyle]="{'color':'#dcdcdc'}" mat-subheader>Songs</h3>
-            <mat-list-item [ngStyle]="{'background-color':'#1e1e1e'}" *ngFor="let file of displayFiles; let i = index">
-              <mat-icon [ngStyle]="{'color':'#ffc730'}" mat-list-icon>music_note</mat-icon>
-              <h4 [ngStyle]="{'color':'#dcdcdc'}" mat-line>{{ file.name }}</h4>
-              <mat-icon [ngStyle]="{'color':'#ffc730'}" *ngIf="currentFile.index === i && !state?.error">volume_up
-              </mat-icon>
-              <h6 *ngIf="currentFile.index === i && state?.error">ERROR</h6>
-              <mat-divider></mat-divider>
-            </mat-list-item>
-          </mat-list>
-        </div>
-        <div class="action-bar">
-          <button class="action-bar-button center" (click)="play()" [disabled]="state?.error" *ngIf="!state?.playing">
-            <mat-icon mat-list-icon>play_arrow</mat-icon>
-          </button>
-          <button class="action-bar-button center" (click)="pause()" *ngIf="state?.playing">
-            <mat-icon mat-list-icon>volume_off</mat-icon>
-          </button>
-        </div>
-    </div>
-</div> -->
-
 <div class="container">
   <div class="top-actions">
     <div class="lcd">
@@ -44,11 +14,4 @@
       </app-real-button>
     </div>
   </div>
-  <!-- <div class="content">
-    <div class="parent-item-view">
-      <app-song-item *ngFor="let song of displayFiles, let i = index" [song]="song" [isPlaying]
-        [isPlaying]="currentFile.index === i && !state?.error">
-      </app-song-item>
-    </div>
-  </div> -->
 </div>
