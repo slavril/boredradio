@@ -36,7 +36,6 @@ export class PlayerComponent {
 	state: StreamState;
 	currentFile: any = {};
 	displayFiles: Array<any> = []
-	isplaying: boolean = false
 
 	adState: PlayerState = new PlayerState();
 	line2 = ''
@@ -48,9 +47,7 @@ export class PlayerComponent {
 		public cloudService: CloudService,
 		public storageService: FilesService
 	) {
-		this.loadList(() => {
-
-		})
+		this.loadList()
 
 		this.audioService.getState().subscribe(state => {
 			this.state = state;
@@ -65,7 +62,6 @@ export class PlayerComponent {
 	}
 
 	playStream = (url, onEvent = function (event) { }) => {
-		this.isplaying = true
 		this.audioService.playStream(url).subscribe(events => {
 			// listening for fun here
 			onEvent(events);
@@ -80,7 +76,6 @@ export class PlayerComponent {
 			this.line2 = file.name
 			this.playStream(url, (event) => {
 				if (event.type == 'ended') {
-					this.isplaying = false
 					setTimeout(() => {
 						this.playRandomSong();
 					}, 1000)
@@ -107,7 +102,7 @@ export class PlayerComponent {
 	play = () => {
 		if (this.adState.inActive) {
 			this.runrun.start('...', text => {
-				this.line2 = 'Bored Radio V2.0, loading' + text
+				this.line2 = 'Bored Radio V2.2, loading' + text
 			})
 
 			setTimeout(() => {
@@ -134,6 +129,10 @@ export class PlayerComponent {
 			let randomElement = this.files[index];
 			this.openFile(randomElement, index);
 		}
+		else {
+			this.line2 = ''
+			this.adState._playing = false
+		}
 	}
 
 	get displayState() {
@@ -155,22 +154,7 @@ export class PlayerComponent {
 		return 'light red-light'
 	}
 
-	reloadList = () => {
-		this.pause()
-		this.runrun.start('...', text => {
-			this.line2 = 'Reloading' + text
-		})
-
-		this.loadList(() => {
-			this.runrun.stop()
-			this.line2 = 'Loaded'
-			this.files = Object.assign([], this.displayFiles)
-			this.playRandomSong()
-		})
-	}
-
-	loadList = (done) => {
-		// ... constructor code
+	loadList = (done = () => { }) => {
 		this.cloudService.getSongs((songs) => {
 			return songs.subscribe(files => {
 				this.displayFiles = files;
