@@ -12,24 +12,7 @@ export class FilesService {
 		this.storage = storage
 	}
 
-	getFile() {
-		let storageRef = this.storage.storage.ref('songs');
-		storageRef.child('xedaplofi.mp3').getDownloadURL().then(url => {
-			console.log(url);
-		})
-
-		storageRef.listAll().then(res => {
-			let urlList = res.items.map((e) => {
-				return {
-					url: e.name,
-					name: 'name',
-					artist: 'unknown'
-				}
-			})
-		})
-	}
-
-	getFileUrl(filename, callback) {
+	getFileUrl(filename: string, callback: (url: string) => void) {
 		let storageRef = this.storage.storage.ref('songs');
 		storageRef.child(filename).getDownloadURL().then(url => {
 			callback(url)

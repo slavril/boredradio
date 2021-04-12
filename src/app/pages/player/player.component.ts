@@ -48,11 +48,8 @@ export class PlayerComponent {
 		public cloudService: CloudService,
 		public storageService: FilesService
 	) {
-		// ... constructor code
-		cloudService.getSongs((songs) => {
-			return songs.subscribe(files => {
-				this.displayFiles = files;
-			});
+		this.loadList(() => {
+
 		})
 
 		this.audioService.getState().subscribe(state => {
@@ -65,17 +62,6 @@ export class PlayerComponent {
 
 	ngOnInit(): void {
 
-	}
-
-	onSliderChangeEnd = (change) => {
-		this.audioService.seekTo(change.value);
-	}
-	isFirstPlaying = () => {
-		return this.currentFile.index === 0;
-	}
-
-	isLastPlaying = () => {
-		return this.currentFile.index === this.files.length - 1;
 	}
 
 	playStream = (url, onEvent = function (event) { }) => {
@@ -110,8 +96,7 @@ export class PlayerComponent {
 	}
 
 	pause = () => {
-		this.audioService.mute(true)
-		this.adState._mute = true
+		this.mute()
 	}
 
 	mute = () => {
@@ -136,18 +121,6 @@ export class PlayerComponent {
 			this.audioService.mute(false)
 			this.adState._mute = false
 		}
-	}
-
-	previous = () => {
-		const index = this.currentFile.index - 1;
-		const file = this.files[index];
-		this.openFile(file, index);
-	}
-
-	next = () => {
-		const index = this.currentFile.index + 1
-		const file = this.files[index];
-		this.openFile(file, index);
 	}
 
 	private get uniqueRandomIndex() {
@@ -181,4 +154,29 @@ export class PlayerComponent {
 		if (this.adState.playing) return 'light green-light'
 		return 'light red-light'
 	}
+
+	reloadList = () => {
+		this.pause()
+		this.runrun.start('...', text => {
+			this.line2 = 'Reloading' + text
+		})
+
+		this.loadList(() => {
+			this.runrun.stop()
+			this.line2 = 'Loaded'
+			this.files = Object.assign([], this.displayFiles)
+			this.playRandomSong()
+		})
+	}
+
+	loadList = (done) => {
+		// ... constructor code
+		this.cloudService.getSongs((songs) => {
+			return songs.subscribe(files => {
+				this.displayFiles = files;
+				done()
+			});
+		})
+	}
+
 }
