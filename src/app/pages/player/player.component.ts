@@ -6,6 +6,7 @@ import { StreamState } from "../../interfaces/stream-state";
 import { CloudService } from '../../services/cloud.service'
 import { FilesService } from '../../services/files.service'
 import RunRun from '../../components/runrun-text'
+import { version } from '../../../../package.json'
 
 class PlayerState {
 	_playing: boolean = false;
@@ -102,7 +103,7 @@ export class PlayerComponent {
 	play = () => {
 		if (this.adState.inActive) {
 			this.runrun.start('...', text => {
-				this.line2 = 'Bored Radio V2.2, loading' + text
+				this.line2 = `Bored Radio ${version}, loading ${text}`
 			})
 
 			setTimeout(() => {

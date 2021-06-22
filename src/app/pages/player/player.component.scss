@@ -14,6 +14,7 @@
   background-color: #FFFFFF;
   align-items: center;
   padding: 8pt;
+  padding-top: 120px;
 }
 
 .background {
@@ -103,18 +104,18 @@
 .top-actions {
   background-color: #edf1f8;
   overflow: auto;
-  border: 2pt solid black;
+  border: 1pt solid #e1e5ec;
   box-sizing: border-box;
   margin-bottom: 8pt;
   padding: 8pt;
-  border-radius: 3pt;
-  max-width: 480pt;
+  border-radius: 4pt;
+  max-width: 200pt;
   margin: auto;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 2px 36px 0 rgba(0, 0, 0, 0.2);
 }
 
 .state-text {
-  font-size: small;
+  font-size: x-small;
   font-weight: normal;
   // color: #00b140;
   color: #000000;
@@ -123,7 +124,7 @@
 }
 
 .song-name {
-  font-size: medium;
+  font-size: small;
   font-weight: normal;
   // color: #00b140;
   color: #000000;
@@ -142,13 +143,13 @@
   margin-bottom: 8pt;
   -moz-box-shadow: inset 0 0 10px #000000;
   -webkit-box-shadow: inset 0 0 10px #000000;
-  box-shadow: inset 0 0 10px #000000;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6);
   height: 100pt;
   overflow: hidden;
 }
 
 .bored-text {
-  font-size: small;
+  font-size: x-small;
   font-weight: normal;
   // color: #00b140;
   color: #000000;
